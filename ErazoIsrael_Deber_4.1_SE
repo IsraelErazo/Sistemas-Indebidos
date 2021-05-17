@@ -1,0 +1,64 @@
+/*
+ * DEBER 4.1
+ * CAPITULO VI:CAD Y PWM
+ * OBJETIVO:Conectar 2 motores en un solo sitema a una misma LCD los datos de CAD Y PWM
+ * Para cada motor atravez de la activacion de un switch y un button segun el motor que corresonda
+ * Nombre:Israel Erazo
+ */
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(13,12,5,4,3,2);              //seleccion de pines para LCD
+const int sw = 6;    //entrada digital del pin 6 
+const int boton = 7;  //entrada digital del pin 7
+int conversor;                                //variable para adquirir conver.0-225
+float voltaje;                                //variable de coneversion desde el conversor a voltaje
+int dutty;                                     //variable para el uso de pwm
+
+void setup() {
+pinMode(boton,INPUT);      //Entrada digital del pin 7
+pinMode(sw,INPUT);          //Entrada digital del pin 6
+lcd.begin(16,2);                              //inicializando la LCD
+}
+
+void loop() {
+  //contador (pull down)
+  while(digitalRead(sw)==HIGH){
+  conversor=analogRead(A0);                   //Lectura del canal A0-0-14
+  voltaje=(conversor*5.0)/1023.0;             //conversor de voltaje 
+  dutty=conversor/4;                          //division entre 1024/223   //cambio la ascala para dutty
+  analogWrite(11,dutty);                      //Envio del valor al pin 11
+  lcd.setCursor(0,0);                          //POSICION DE INICIO LCD
+  lcd.print("SEGUNDO CAD:");                  //IMPRESION EN LCD
+  lcd.setCursor(14,0);
+  lcd.print(conversor);
+  lcd.setCursor(0,1);
+  lcd.print("V:");
+  lcd.setCursor(3,1);
+  lcd.print(voltaje);
+  lcd.print("PWM:");
+  lcd.setCursor(13,1);
+  lcd.print((dutty*100)/255);
+  delay(300);
+  lcd.clear();
+    
+  }
+//contador Binario de 6 bits->64 en decimal( pull up)
+if(digitalRead(boton)==LOW){        //cONDICION QUE ACTIVA EL BOTON EN BAJO
+  conversor=analogRead(A0);                   //Lectura del canal A0-0-14
+  voltaje=(conversor*5.0)/1023.0;             //conversor de voltaje 
+  dutty=conversor/4;                          //division entre 1024/223   //cambio la ascala para dutty
+  analogWrite(10,dutty);                      //Envio del valor al pin 10
+  lcd.setCursor(0,0);                         //POSICION DE INICIO LCD
+  lcd.print("PRIMER CAD:");                   //IMPRESION EN LCD
+  lcd.setCursor(14,0);
+  lcd.print(conversor);
+  lcd.setCursor(0,1);
+  lcd.print("V:");
+  lcd.setCursor(3,1);
+  lcd.print(voltaje);
+  lcd.print("PWM:");
+  lcd.setCursor(13,1);
+  lcd.print((dutty*100)/255);
+  delay(300);
+  lcd.clear();
+}
+}
