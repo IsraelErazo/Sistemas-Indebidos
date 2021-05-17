@@ -1,0 +1,188 @@
+/*
+ * Deber #3.1
+ * CAPITULO III:Modulos de comunicacion I2C
+ * OBJETIVO:Mediante una comunicacion I2C Configurar 1 maestro y 3 esclavos
+ * cada esclavo tendra conectado 3 leds en sus salidas digitales cuando se ingrese cualquier caracter
+ * Nombre:Israel Erazo
+ */
+////////////////////////////MASTER///////////////////////////////////////
+
+
+#include <Wire.h>         //libreria I2C
+char dato;                //Variable de almacenamiento de datos 
+
+void setup() {
+  Wire.begin();           //inicia comunicacion I2C
+  Serial.begin(9600);      //inicia comunicacion serial
+
+}
+
+void loop() {
+  if(Serial.available()>0){       //verifivar que exista datos
+    dato=Serial.read();         //alamacena el dato en la variable 
+    Wire.beginTransmission(4);      //empieza la comunicacion I2C con el primer esclavo
+    Wire.write(dato);               //envio dato
+    Wire.endTransmission();         //Termino la comunicacion I2C
+    
+
+    Wire.beginTransmission(5);      //empieza la comunicacion I2C con el segundo esclavo
+    Wire.write(dato);               //envio dato
+    Wire.endTransmission();         //Termino la comunicacion I2C
+
+    Wire.beginTransmission(6);      //empieza la comunicacion I2C con el tercer esclavo
+    Wire.write(dato);               //envio dato
+    Wire.endTransmission();         //Termino la comunicacion I2C
+    
+  }
+
+}
+
+//////////////////////////////PRIMER Esclavo///////////////////
+
+#include <Wire.h>           //libreria I2C
+char dato;                 //variABLE de almacenamiento de dato  
+const int led1=8;           //LEDS
+const int led2=9;           //LEDS
+const int led3=10;           //LEDS
+
+void setup() {
+  Wire.begin(4);                //id de esclavo
+  Wire.onReceive(receiveEvent);  
+  Serial.begin(9600);
+  pinMode(led1,OUTPUT);       //pIN DE SALIDA
+  pinMode(led2,OUTPUT);       //pIN DE SALIDA
+  pinMode(led3,OUTPUT);       //pIN DE SALIDA
+
+}
+
+void loop() {
+  
+}
+
+void receiveEvent (int bytes){
+  while(Wire.available()){
+    dato=Wire.read();
+    switch(dato){
+      case 'A':
+      digitalWrite(led1,HIGH);
+      digitalWrite(led2,LOW);
+      digitalWrite(led3,LOW);
+      break;
+      case 'B':
+      digitalWrite(led1,LOW);
+      digitalWrite(led2,HIGH);
+      digitalWrite(led3,LOW);
+      break;
+      case 'C':
+      digitalWrite(led1,LOW);
+      digitalWrite(led2,LOW);
+      digitalWrite(led3,HIGH);
+      break;  
+      default:
+      digitalWrite(led1,LOW);
+      digitalWrite(led2,LOW);
+      digitalWrite(led3,LOW);
+      break;
+    }
+  }
+}
+
+//////////////////////////////SEGUNDO Esclavo///////////////////
+
+#include <Wire.h>           //libreria I2C
+char dato;                 //variABLE de almacenamiento de dato  
+const int led1=8;           //LEDS
+const int led2=9;           //LEDS
+const int led3=10;           //LEDS
+
+void setup() {
+  Wire.begin(5);                //id de esclavo
+  Wire.onReceive(receiveEvent);  
+  Serial.begin(9600);
+  pinMode(led1,OUTPUT);       //pIN DE SALIDA
+  pinMode(led2,OUTPUT);       //pIN DE SALIDA
+  pinMode(led3,OUTPUT);       //pIN DE SALIDA
+
+}
+
+void loop() {
+  
+}
+
+void receiveEvent (int bytes){
+  while(Wire.available()){
+    dato=Wire.read();
+    switch(dato){
+      case 'D':
+      digitalWrite(led1,HIGH);
+      digitalWrite(led2,LOW);
+      digitalWrite(led3,LOW);
+      break;
+      case 'E':
+      digitalWrite(led1,LOW);
+      digitalWrite(led2,HIGH);
+      digitalWrite(led3,LOW);
+      break;
+      case 'F':
+      digitalWrite(led1,LOW);
+      digitalWrite(led2,LOW);
+      digitalWrite(led3,HIGH);
+      break;  
+      default:
+      digitalWrite(led1,LOW);
+      digitalWrite(led2,LOW);
+      digitalWrite(led3,LOW);
+      break;
+    }
+  }
+}
+
+//////////////////////////////TERCER Esclavo///////////////////
+
+#include <Wire.h>           //libreria I2C
+char dato;                 //variABLE de almacenamiento de dato  
+const int led1=8;           //LEDS
+const int led2=9;           //LEDS
+const int led3=10;           //LEDS
+
+void setup() {
+  Wire.begin(6);                //id de esclavo
+  Wire.onReceive(receiveEvent);  
+  Serial.begin(9600);
+  pinMode(led1,OUTPUT);       //pIN DE SALIDA
+  pinMode(led2,OUTPUT);       //pIN DE SALIDA
+  pinMode(led3,OUTPUT);       //pIN DE SALIDA
+
+}
+
+void loop() {
+  
+}
+
+void receiveEvent (int bytes){
+  while(Wire.available()){
+    dato=Wire.read();
+    switch(dato){
+      case 'G':
+      digitalWrite(led1,HIGH);
+      digitalWrite(led2,LOW);
+      digitalWrite(led3,LOW);
+      break;
+      case 'H':
+      digitalWrite(led1,LOW);
+      digitalWrite(led2,HIGH);
+      digitalWrite(led3,LOW);
+      break;
+      case 'I':
+      digitalWrite(led1,LOW);
+      digitalWrite(led2,LOW);
+      digitalWrite(led3,HIGH);
+      break;  
+      default:
+      digitalWrite(led1,LOW);
+      digitalWrite(led2,LOW);
+      digitalWrite(led3,LOW);
+      break;
+    }
+  }
+}
