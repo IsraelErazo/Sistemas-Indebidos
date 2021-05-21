@@ -1,0 +1,60 @@
+/*
+ * CAPITULO IV: PERIFERICOS ESPECIALES
+ * CODIGO 18: Uso de Timer 2 
+ * Objetivo: Relo con Timer 2 
+ * FUNCIONES: MsTimer2::set(1000,flash);// 1 s de periodo
+ *            MsTimer2::start();
+ *            MsTimer2::stop();
+ *Nombre: ISRAEL ERAZO
+ */
+
+ #include <MsTimer2.h>        //libreria del timer  2
+ #include <LiquidCrystal.h>
+
+ LiquidCrystal lcd (13,12,11,10,9,8);        //objeto para la libreria de LCD
+ 
+ int segundos=0;                        //variable de segundos
+ int minutos=0;                         //variabloe de mintos
+ int horas=0;                           //variable de horas
+ int val_timer=1000;                    //valor del timer para reconocer en la lcd
+ 
+void setup() {
+  lcd.begin(20,4);
+  MsTimer2::set(val_timer,reloj);          //configura el Timer 2 a 1 SEGUNDO
+  MsTimer2::start();                  //inicia e timer 2               
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+}
+
+void reloj(){
+  if(segundos<60){                  //condicion de segundos 
+    segundos++;                   //incremntadno mi varibale
+  }
+  else{
+    segundos=0;
+    if(minutos<60){               //condicion de minutos 
+      minutos++;                    //incrementa la varible
+    }
+    else{
+      minutos=0;
+      if(horas<24){               //condicion de horas
+      horas++;                    //incrementa la varible
+    }
+    else{
+      horas=0;
+    }
+  }
+}
+lcd.clear();        //limpiar
+lcd.setCursor(3,0);     //ubicacion LCD
+lcd.print("BIENVENIDOS :)");        //mensaje de bienvenida
+lcd.setCursor(0,1);                   //ubicacion LCD
+lcd.print("ERAZO ISRAEL");                //autor
+lcd.setCursor(8,2);                         //ubicacion LCD
+lcd.print(String(horas)+String(":")+String(minutos)+String(":")+String(segundos));        //mesaje de impresion
+lcd.setCursor(1,3);                   //ubicacion LCD
+lcd.print(String("Val Timer: ")+String(val_timer)+" ms");    //mensaje con el valor del tiempo en que cambia el tiempo del reloj
+}
