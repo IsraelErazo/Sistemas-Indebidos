@@ -1,0 +1,41 @@
+*
+* CAPÍTULO 5: FUNCIONES ESPECÍFICAS
+* PROGRAMA 26: Manejo de prioridades en RTOS
+* OBJETIVO: Ejecutar tareas directamente en el Kernel del uC.
+* NOMBRE:Erazo Israel
+*/
+#include <Arduino_FreeRTOS.h> // librería de RTOS
+// LEDS EN ARDUINO PARA SIMULACIÓN DE PROCESOS
+int verde=6;
+int ama=7;
+int rojo=8;
+void setup() // Metodo de configuraciones
+{
+//Declaramos los pines de salida (uno por cada led)
+  pinMode(verde,OUTPUT);
+  pinMode(ama,OUTPUT);
+  pinMode(rojo,OUTPUT);
+}
+
+void loop() //Bucle de iteraciones (por defecto)
+{
+  // put your main code here, to run repeatedly:
+  digitalWrite(verde,HIGH);//Encendemos luz verde
+  delay(4000);//Pasan 4 segundos
+  digitalWrite(verde,LOW);//Apagamos luz verde
+  delay(500); //Pasa medio segundo
+  digitalWrite(verde,HIGH);//Se enciende luz verde (1er parpadeo)
+  delay(500); //Pasa medio segundo
+  digitalWrite(verde,LOW);//Apagamos luz verde
+  delay(500); //Pasa medio segundo
+  digitalWrite(verde,HIGH);//Se enciende luz verde (2ndo parpadeo)
+  delay(500); //Pasa medio segundo
+  digitalWrite(verde,LOW);//Apagamos luz verde
+  digitalWrite(ama,HIGH); //Encendemos luz amarilla
+  delay(2000);//Pasan 2 segundos
+  digitalWrite(ama,LOW);//Apagamos luz amarilla
+  digitalWrite(rojo,HIGH);//Encendemos Luz Roja
+  delay(4000); //Pasan 4 segundos
+  digitalWrite(rojo,LOW);//Apagamos Luz roja
+  //Vuelve a repetirse todo desde el inicio ya que es un bucle
+}
